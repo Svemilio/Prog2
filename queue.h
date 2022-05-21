@@ -1,5 +1,5 @@
 ////////////utilizziamo una struttura dati che già conosciamo.
-#ifdef QUEUE_H
+#ifndef QUEUE_H
 #define QUEUE_H
 #include "dllist.h"
 #include<iostream>

@@ -1,4 +1,4 @@
-#ifdef DLNODE_H
+#ifndef DLNODE_H
 #define DLNODE_H
 #include<iostream>
 

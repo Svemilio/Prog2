@@ -1,4 +1,4 @@
-#ifdef DLLIST_H
+#ifndef DLLIST_H
 #define DLLIST_H
 #include "dlnode.h"
 #include<iostream>

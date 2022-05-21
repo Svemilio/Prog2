@@ -1,3 +1,5 @@
+#ifndef NANO_H
+#define NANO_H
 #include<iostream>
 
 using namespace std;
@@ -21,3 +23,5 @@ class Node
         }
         Node<T>* getNext()const {return this->next;}  //mettendo const li diciamo che è un valore immodificabile
 };
+
+#endif
