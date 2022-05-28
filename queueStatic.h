@@ -1,64 +1,75 @@
-#ifndef STATIC_QUEUE
-#define STATIC_QUEUE
-#define MAX_SIZE 1000
-#include<iostream>
+#ifndef QUEUESTATIC_H
+#define QUEUESTATIC_H
+
+#define MAX_SIZE 100
+#include <iostream>
 
 using namespace std;
 
-template<typename T>
-class StaticQueue
-{
-    T* array;
-    int size=0;
-    int maxSize= MAX_SIZE;
-    int head=-1;
-    int tail=-1;
+/* 
+   ***************************
+   *  STATIC CIRCULAR QUEUE  *
+   ***************************
+*/
 
-    public:
-        StaticQueue(int maxsize): maxSize(maxsize)
-        {
-            this->array=new T[maxSize];
-        }
-        void enqueue(T val)
-        {
-            if(size==maxSize)
-            {
-                cout<<" queue is full"<<endl;
-                return;
-            }
-            if(head==-1)
-                head=0;
+template <typename T>
+class StaticQueue{
+     private:
+      T* array;
+      int size = 0;
+      int maxSize = MAX_SIZE;
 
-            array[++tail%maxSize]=val;
-            size++;
-        }
+      int head = 0;
+      int tail = -1;
+     public:
+      StaticQueue(int _maxSize = MAX_SIZE) : maxSize(_maxSize) {
+          this->array = new T[maxSize];
+      }
+      
+      bool isEmpty() const{  return size == 0; }
 
-        T dequeue()
-        {
-            if(size==0)
-            {
-                cout<<"queue is empty"<<endl;
-                return -1;
+      void enqueue(T val){
+          if(size == maxSize){ //raggiunta dimensione max
+              cerr << "ERROR, Queue IS FULL!\n\n";
+            return;
+          }
+          
+          tail = ++tail % maxSize; 
+          array[tail] = val;
+          size++;
+      }
+
+        T dequeue(){
+          if(this->isEmpty()){
+            cerr << "ERROR, EMPTY Queue!" <<endl <<endl;
+            return 0;
+          }
+          
+          T val = array[head];
+          head = (++head % maxSize);
+          size--;
+          return val;
+      }
+      
+      friend ostream& operator <<(ostream& out, const StaticQueue<T>& q){
+         
+         if(!q.isEmpty()){
+            out << "Queue head = " << q.head << ", Queue tail = " << q.tail 
+                << ", size = " << q.size << " ---->" << std::endl;
+            
+            for(int i = q.head, count = 0; count < q.size; count++){
+              out << "\t\t" << "q[" << i << "] = " << q.array[i] <<endl;
+              i = (i+1) % q.maxSize;
             }
-            T val=array[head];
-            return array[++head%maxSize];
-            size--;
-            return val;
-        }
-        friend ostream& operator<<(ostream& out,StaticQueue<T>& queue)
-        {
-            if(queue.size==0)
-            {
-                out<<"queue is empty"<<endl;
-            }
-            out<<"static queue-size "<<queue.size<<", maxsize-"<<queue.maxSize<<endl;
-            for(int i=queue.head, count=0;count<queue.size;count++)
-            {
-                out<<queue.array[i]<<endl;
-                i=(1+i)%queue.maxSize;
-            }
-            return out;
-        }
+         }
+         else{
+            out << "Queue EMPTY!" <<endl;
+         }
+
+         return out;
+     }
+      
 };
+
 
 #endif

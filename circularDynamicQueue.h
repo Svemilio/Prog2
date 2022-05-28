@@ -1,32 +1,42 @@
-#ifndef QUEUE_H
-#define QUEUE_H
-#include<iostream>
-#include "DLList.h"
+#ifndef CIRCULARDYNAMICQUEUE_H
+#define CIRCULARDYNAMICQUEUE_H
+
+#define MAX_SIZE 100
+#include <iostream>
+#include "14_DLList.h"
+
+using namespace std;
 
 /* 
    ***************************
-   *         QUEUE           *
+   *  CIRCULAR DYNAMIC QUEUE *
    ***************************
 */
-using namespace std;
 
 template <typename T>
-class Queue : protected DLList<T>{
-     private:
+class CircularQueue : protected DLList<T>{
+     private: 
       int size = 0;
-     public: 
-      Queue() : DLList<T>() { }
-      
-      bool isEmpty() const{  return size == 0; }
+      int maxSize;
+     public:
+      CircularQueue() : DLList<T>() { } 
+      CircularQueue(int _maxSize = MAX_SIZE) : maxSize(_maxSize) { }
 
+      bool isEmpty() const{  return size == 0; }  
+      
       void enqueue(T val){
+          if(size == maxSize){ //raggiunta dimensione max
+            cerr << "ERROR, Queue IS FULL!\n\n";
+            return;
+          }
+
           DLList<T>::insertTail(val);
           size++;
       }
 
       DLNode<T> dequeue(){
           if(this->isEmpty()){
-                cout << "EMPTY QUEUE!" <<endl <<endl;
+            cout << "EMPTY QUEUE!" <<endl <<endl;
             return 0;
           }
           
@@ -36,7 +46,7 @@ class Queue : protected DLList<T>{
           return ptr;
       }
       
-      friend ostream& operator <<(ostream& out, const Queue<T>& q){
+      friend ostream& operator <<(ostream& out, const CircularQueue<T>& q){
          //out << (DLList<T>)q; //cast per chiamare overload di superclasse
          
          if(!q.isEmpty()){
@@ -55,8 +65,6 @@ class Queue : protected DLList<T>{
 
          return out;
      }
-      
 };
-
 
 #endif

@@ -1,65 +1,72 @@
-#ifndef STATIC_STACK_H
-#define STATIC_STACK_H
-
+#ifndef STATICKSTACK_H
+#define STATICKSTACK_H
 #include<iostream>
+
+/* 
+   ***************************
+   *      PILA STATICA       *
+   ***************************
+*/
 
 using namespace std;
 
-template<typename T>
-class StaticStack
-{
+template <typename T>
+class StaticStack{
+   private:
     T* array;
-    int top=-1;
-    int size=0;
-    int maxSize=-1;
+    int top = -1;
+    int maxSize;
+   public:
+    StaticStack(int _maxSize) : maxSize(_maxSize) { 
+        array = new T[maxSize];
+    }
+    
+    bool isEmpty() const{
+        return top == -1;
+    }
 
-    public:
-        StaticStack(int _maxSize):maxSize(_maxSize)
-        {
-            array=new T[maxSize];
+    T getTop() const{
+         if(this->isEmpty()){
+            cerr << "ERROR, Stack EMPTY!\n\n";  
+          return -1;
+         }
+
+         return array[top];
+    }
+
+    void push(T val){
+         if(top == maxSize-1){ //raggiunta dimensione max
+            cerr << "ERROR, Stack OVERFLOW!\n\n";
+           return;
+         }
+
+         array[++top] = val;
+    }
+
+    T pop(){
+        if(this->isEmpty()){
+            cerr << "ERROR, Stack EMPTY!\n\n";  
+          return -1;
         }
 
-        T GetTop()
-        {
-            if(isEmpty())
-                return -1;
-            return array[top];
-        }
+        return array[top--];
+    }
+    
+    friend ostream& operator <<(ostream& out, const StaticStack<T>& s){
+         if(!s.isEmpty()){
+            out<< "Static Stack: maxSize = " << s.maxSize << ", top = " << s.getTop() 
+                << " ----> " << endl;
+            
+            for(int i = s.top; i >= 0; i--)
+            out<< "\t\t" << s.array[i] <<endl;
+         }
+         else{
+            out<< "Stack EMPTY!" <<endl;
+         }
 
-        void push(T val)
-        {
-            if(top==maxSize-1)
-                return;
-            this->array[++top]=val;
-        }
+         return out;   
+    }
 
-        T pop()
-        {
-            if(isEmpty())
-                return -1;
-            return array[top--]; //ritorno top e lo decremento
-        }
-
-        bool isEmpty()
-        {
-            return top==-1;
-        }
-
-        friend ostream& operator<<(ostream& out,StaticStack<T> s)
-        {
-            out<<"StaticStack: maxSize= "<<s.maxSize<<endl;
-            out<<"---------------"<<endl;
-            for(int i=s.top;i>=0;i--)
-            {
-                out<<s.array[i]<<"-"<<endl;
-            }
-            return out;
-        }
 };
-
-//la complessita delle operazioni potrebbe dipendere da come implementiamo le cose
-//push -> O(1);
-//pop -> O(1);
-//top -> O(1);
 
 #endif
