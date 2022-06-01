@@ -22,7 +22,7 @@ class StaticStack{
     }
     
     bool isEmpty() const{
-        return top == -1;
+        return top == NULL;
     }
 
     T getTop() const{
@@ -58,7 +58,7 @@ class StaticStack{
                 << " ----> " << endl;
             
             for(int i = s.top; i >= 0; i--)
-            out<< "\t\t" << s.array[i] <<endl;
+            out<< "\t\t" << *(s.array[i]) <<endl;
          }
          else{
             out<< "Stack EMPTY!" <<endl;
