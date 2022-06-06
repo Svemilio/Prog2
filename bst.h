@@ -30,6 +30,8 @@ class BST
         }
         //la mia procedura ricorsiva deve avere due parametri 
         //il valore da inserire e la radice del sottoalbero
+        //corregere queso metodo insert!!!!!!!!
+        //scrivere anche la parte dove inseriamo il parent
         void insert(BSTNode<T>* ptr,T key)
         {
             if(ptr==nullptr)
@@ -54,6 +56,33 @@ class BST
         void inorder()
         {
             inorder(root);
+        }
+        //fare a casa inserimento pre order e post order.
+        BSTNode<T>* min()
+        {
+            if(isEmpty())
+            {
+                return NULL;
+            }
+            BSTNode<T>* node=root;
+            while(node->left)
+            {
+                node=node->left;
+            }
+            return node;
+        }
+        BSTNode<T>* max()
+        {
+            if(isEmpty())
+            {
+                return NULL;
+            }
+            BSTNode<T>* node=root;
+            while(node->rigth)
+            {
+                node=node->rigth;
+            }
+            return node;
         }
 };
 

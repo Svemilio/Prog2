@@ -10,7 +10,7 @@ class BSTNode
         T key;
         BSTNode<T>* left;
         BSTNode<T>* rigth;
-
+        BSTNode<T>* parent;
         template<typename U>
         friend class BST;
     public:
@@ -18,6 +18,7 @@ class BSTNode
         {
             left=nullptr;
             rigth=nullptr;
+            parent=nullptr;
         }
 
         void setLeft(BSTNode<T>* left)
@@ -28,6 +29,10 @@ class BSTNode
         {
             this->rigth=rigth;
         }
+        void setParent(BSTNode<T>* parent)
+        {
+            this->parent=parent;
+        }
         BSTNode<T>* getRigth()
         {
             return this->rigth;
@@ -35,6 +40,10 @@ class BSTNode
         BSTNode<T>* getleft()
         {
             return this->left;
+        }
+        BSTNode<T>* getParent()
+        {
+            return this->parent;
         }
         void setKey(T key)
         {
