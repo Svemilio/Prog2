@@ -89,7 +89,7 @@ class BST
             }
             return from;
         }
-        
+
         BSTNode<T>* max()
         {
             return max(this->root);
@@ -98,6 +98,9 @@ class BST
         BSTNode<T>* successore(BSTNode<T>* x)
         {
             if(this->isEmpty())
+                return nullptr;
+            
+            if(x==max())
                 return nullptr;
             //primo caso x ha un sottoalbero destro.
             if(x->rigth)
@@ -113,6 +116,43 @@ class BST
             }
 
             return y;
+        }
+
+        BSTNode<T>* predecessore(BSTNode<T>* x)
+        {
+            if(x==min())
+                return nullptr;
+            if(this->isEmpty())
+                return nullptr;
+            
+            if(x->left)
+                return this->max(x->left);
+
+            BSTNode<T>* y=x->parent;
+            while(x!=nullptr && x==y->left)
+            {
+                x=y;
+                y=y->parent;
+            }
+            return y;
+        }
+        BSTNode<T>* search(T key)
+        {
+            return search(root,key);
+        }
+        BSTNode<T>* search(BSTNode<T>* ptr,T key)
+        {
+            if(ptr==nullptr)
+                return nullptr;
+            if(ptr->key==key)
+                return ptr;
+            if(key<=ptr->key)
+                return search(ptr->left,key);
+            else
+                return search(ptr->rigth,key);
+
+            return nullptr;
+
         }
 };
 
