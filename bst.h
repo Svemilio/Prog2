@@ -57,32 +57,62 @@ class BST
         {
             inorder(root);
         }
-        //fare a casa inserimento pre order e post order.
         BSTNode<T>* min()
         {
-            if(isEmpty())
-            {
-                return NULL;
-            }
-            BSTNode<T>* node=root;
-            while(node->left)
-            {
-                node=node->left;
-            }
-            return node;
+            return min(this->root);
         }
-        BSTNode<T>* max()
+        //fare a casa inserimento pre order e post order.
+        BSTNode<T>* min(BSTNode<T>* from)
         {
             if(isEmpty())
             {
                 return NULL;
             }
-            BSTNode<T>* node=root;
-            while(node->rigth)
+            BSTNode<T>* from=root;
+            while(from->left)
             {
-                node=node->rigth;
+                from=from->left;
             }
-            return node;
+            return from;
+        }
+
+        BSTNode<T>* max(BSTNode<T>* from)
+        {
+            if(isEmpty())
+            {
+                return NULL;
+            }
+            BSTNode<T>* from=root;
+            while(from->rigth)
+            {
+                from=from->rigth;
+            }
+            return from;
+        }
+        
+        BSTNode<T>* max()
+        {
+            return max(this->root);
+        }
+
+        BSTNode<T>* successore(BSTNode<T>* x)
+        {
+            if(this->isEmpty())
+                return nullptr;
+            //primo caso x ha un sottoalbero destro.
+            if(x->rigth)
+                return this->min(x->rigth);
+            //secondo caso x non ha un sottoalbero destro
+            //il successore di x è l'antenato piu prossimo di x
+            //il cui figlio sinistro è un antenato di x;
+            BSTNode<T>* y=x->parent;
+            while(x!=nullptr && x==y->rigth)
+            {
+                x=y;
+                y=y->parent;
+            }
+
+            return y;
         }
 };
 
