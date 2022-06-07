@@ -17,6 +17,12 @@ class BST
         {
             return root==nullptr;
         }
+        
+        BSTNode<T>* getRoot()
+        {
+            return this->root;
+        }
+
         void insert(T val)
         {
             if(this->isEmpty())
@@ -25,8 +31,6 @@ class BST
                 return;
             }
             insert(root,key);
-            
-
         }
         //la mia procedura ricorsiva deve avere due parametri 
         //il valore da inserire e la radice del sottoalbero
@@ -34,17 +38,29 @@ class BST
         //scrivere anche la parte dove inseriamo il parent
         void insert(BSTNode<T>* ptr,T key)
         {
-            if(ptr==nullptr)
-                ptr=new BSTNode<T>(key);
-            else if(key<=ptr->key)
+            if(ptr->left ==nullptr && key<= ptr->key)
+            {
+                ptr->left=new BSTNode<T>(key);
+                ptr->left->setParent(ptr);
+                return;
+            }
+            if(ptr->rigth== nullptr && key > ptr->key)
+            {
+                ptr->rigth= new BSTNode<T>(key);
+                ptr->rigth->parent=ptr;
+                return;
+            }
+            else if(key <= ptr->key)
                 insert(ptr->left,key);
             else
-                insert(ptr->rigth,key);
+                insert(ptr->rigth, key);
         }
+
         void visit(BSTNode<T>* node)
         {
             str::cout<<*node <<std::endl;
         }
+
         void inorder(BSTNode<T>* ptr)
         {
             if(ptr==nullptr)
@@ -68,12 +84,12 @@ class BST
             {
                 return NULL;
             }
-            BSTNode<T>* from=root;
-            while(from->left)
+            BSTNode<T>* ptr = from;
+            while(ptr->left)
             {
-                from=from->left;
+                ptr=ptr->left;
             }
-            return from;
+            return ptr;
         }
 
         BSTNode<T>* max(BSTNode<T>* from)
@@ -82,12 +98,12 @@ class BST
             {
                 return NULL;
             }
-            BSTNode<T>* from=root;
-            while(from->rigth)
+            BSTNode<T>* ptr=from;
+            while(ptr->rigth)
             {
-                from=from->rigth;
+                ptr=ptr->rigth;
             }
-            return from;
+            return ptr;
         }
 
         BSTNode<T>* max()
@@ -95,7 +111,7 @@ class BST
             return max(this->root);
         }
 
-        BSTNode<T>* successore(BSTNode<T>* x)
+        BSTNode<T>* successor(BSTNode<T>* x)
         {
             if(this->isEmpty())
                 return nullptr;
@@ -109,6 +125,7 @@ class BST
             //il successore di x è l'antenato piu prossimo di x
             //il cui figlio sinistro è un antenato di x;
             BSTNode<T>* y=x->parent;
+
             while(x!=nullptr && x==y->rigth)
             {
                 x=y;
@@ -118,7 +135,7 @@ class BST
             return y;
         }
 
-        BSTNode<T>* predecessore(BSTNode<T>* x)
+        BSTNode<T>* predecessor(BSTNode<T>* x)
         {
             if(x==min())
                 return nullptr;
