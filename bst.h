@@ -171,6 +171,84 @@ class BST
             return nullptr;
 
         }
+
+        BSTNode<T>* remove(BSTNode<T>* node)
+        {           
+            //caso 1 nodo è un foglia
+            if(node->left==nullptr && node->rigth==nullptr)
+            {
+                if(node==node->parent->left)
+                    node->parent->left=nullptr;
+                
+                else if (node==node->parent->rigth)
+                    node->parent->rigth=nullptr;
+
+                return node;
+            }
+            //caso 2 il nodo ha solo un figlio
+
+            if(node->left==nullptr && node->rigth!=nullptr)
+            {
+                node->rigth->parent=node->parent;
+
+                if(node==node->parent->left)
+                {
+                    node->parent->left=node->rigth;
+                }
+                else if(node==node->parent->rigth)
+                {
+                    node->parent->rigth = node->rigth;
+                }
+                return node;
+            }
+
+            if(node->left != nullptr && node->rigth == nullptr)
+            {
+                node->left->parent = node->parent;
+                if(node==node->parent->left)
+                {
+                    node->parent->left=node->left;
+                }
+                else if(node==node->parent->rigth)
+                {
+                    node->parent->rigth = node->left;
+                }
+                return node;
+            }
+
+            return nullptr;
+
+        }
+        BSTNode<T>* remove(T key)
+        {
+            if(this->isEmpty())
+            {
+                return;
+            }
+
+            BSTNode<T>* node= this->search(key);
+            if(node==nullptr)
+                return nullptr;
+            
+            BSTNode<T>* ToDelete = this->remove(node);
+
+            if(ToDelete != nullptr)
+                return ToDelete;
+            //caso 3
+            //il nodo da eliminare ha due figli
+            //sostituiamo la chiave del nodo da eliminare con la chiave del suo successore.
+            BSTNode<T>* next= this->successor(node);
+            //sostituzione della chiave
+            T swap= node->key;
+            node->key = next->key;
+            next->key= swap;
+
+            //richiamo la procedura di cancellazione sul successore.
+            ToDelete = this->remove(next);
+
+            return ToDelete;
+            
+        }
 };
 
 #endif
